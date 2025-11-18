@@ -228,7 +228,7 @@ Tree* SerialTreeLearner::Train(const score_t* gradients, const score_t *hessians
     // int best_leaf = static_cast<int>(ArrayArgs<SplitInfo>::ArgMax(best_split_per_leaf_));
     
     int qcanaritos = config_->canaritos; 
-    int canaritos_cutoff = config_->canaritos_cutoff:
+    int canaritos_cutoff = config_->canaritos_cutoff;
        
     int best_leaf = -1;
     double  best_gain = -99999999.0;
