@@ -228,6 +228,7 @@ Tree* SerialTreeLearner::Train(const score_t* gradients, const score_t *hessians
     // int best_leaf = static_cast<int>(ArrayArgs<SplitInfo>::ArgMax(best_split_per_leaf_));
     
     int qcanaritos = config_->canaritos; 
+    int canaritos_cutoff = config_->canaritos_cutoff:
        
     int best_leaf = -1;
     double  best_gain = -99999999.0;
@@ -252,6 +253,11 @@ Tree* SerialTreeLearner::Train(const score_t* gradients, const score_t *hessians
       break;
     }
 
+   // only canaritos were present
+    if (best_leaf >=0 & best_leaf_cana >=0 & canaritos_cutoff>0 & best_gain_cana>best_gain ) {
+      Log::Warning("Canaritos only cutoff");
+      break;
+    }
     // if( best_leaf_cana > -1 && best_split_per_leaf_[best_leaf].gain < best_split_per_leaf_[best_leaf_cana].gain ) {
     //  break;
     // }

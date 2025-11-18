@@ -51,6 +51,7 @@ const std::unordered_map<std::string, std::string>& Config::alias_table() {
   {"qcanaritos", "canaritos"},
   {"canaries", "canaritos"},
   {"canary", "canaritos"},
+  {"canaries_cutoff", "canaritos_cutoff"},
   {"num_leaf", "num_leaves"},
   {"max_leaves", "num_leaves"},
   {"max_leaf", "num_leaves"},
@@ -206,6 +207,7 @@ const std::unordered_set<std::string>& Config::parameter_set() {
   "gradient_bound",
   "num_leaves_initial",
   "canaritos",
+  "canaritos_cutoff",
   "num_leaves",
   "tree_learner",
   "num_threads",
@@ -364,6 +366,9 @@ void Config::GetMembersFromString(const std::unordered_map<std::string, std::str
 
   GetInt(params, "canaritos", &canaritos);
   CHECK_GE(canaritos, -1);
+
+  GetInt(params, "canaritos_cutoff", &canaritos_cutoff);
+  CHECK_GE(canaritos_cutoff, 0);
 
   GetInt(params, "num_leaves", &num_leaves);
   CHECK_GT(num_leaves, 1);
@@ -704,6 +709,7 @@ std::string Config::SaveMembersToString() const {
   str_buf << "[gradient_bound: " << gradient_bound << "]\n";
   str_buf << "[num_leaves_initial: " << num_leaves_initial << "]\n";
   str_buf << "[canaritos: " << canaritos << "]\n";
+  str_buf << "[canaritos_cutoff: " << canaritos_cutoff << "]\n";
   str_buf << "[num_leaves: " << num_leaves << "]\n";
   str_buf << "[num_threads: " << num_threads << "]\n";
   str_buf << "[seed: " << seed << "]\n";
@@ -831,6 +837,7 @@ const std::unordered_map<std::string, std::vector<std::string>>& Config::paramet
     {"gradient_bound", {"gradient_max"}},
     {"num_leaves_initial", {"num_leaves_initial"}},
     {"canaritos", {"canarito", "qcanaritos", "canaries", "canary"}},
+    {"canaritos_cutoff", {"canaries_cutoff"}},
     {"num_leaves", {"num_leaf", "max_leaves", "max_leaf", "max_leaf_nodes"}},
     {"tree_learner", {"tree", "tree_type", "tree_learner_type"}},
     {"num_threads", {"num_thread", "nthread", "nthreads", "n_jobs"}},
@@ -979,6 +986,7 @@ const std::unordered_map<std::string, std::string>& Config::ParameterTypes() {
     {"gradient_bound", "double"},
     {"num_leaves_initial", "int"},
     {"canaritos", "int"},
+    {"canaritos_cutoff", "int"},
     {"num_leaves", "int"},
     {"tree_learner", "string"},
     {"num_threads", "int"},

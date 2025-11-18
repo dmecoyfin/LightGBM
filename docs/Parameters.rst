@@ -238,6 +238,10 @@ Core Parameters
 
    -  number of column canaritos at the beginning, no effect if ==-1
 
+-  ``canaritos_cutoff`` :raw-html:`<a id="canaritos_cutoff" title="Permalink to this parameter" href="#canaritos_cutoff">&#x1F517;&#xFE0E;</a>`, default = ``0``, type = int, aliases: ``canaries_cutoff``, constraints: ``canaritos_cutoff >= 0``
+
+   -  if 1 canary gain dominates
+
 -  ``num_leaves`` :raw-html:`<a id="num_leaves" title="Permalink to this parameter" href="#num_leaves">&#x1F517;&#xFE0E;</a>`, default = ``kDefaultNumLeaves``, type = int, aliases: ``num_leaf``, ``max_leaves``, ``max_leaf``, ``max_leaf_nodes``, constraints: ``1 < num_leaves <= 131072``
 
    -  max number of leaves in one tree

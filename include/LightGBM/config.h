@@ -225,6 +225,11 @@ struct Config {
   // desc = number of column canaritos at the beginning, no effect if ==-1
   int canaritos = -1;
 
+  // alias = canaries_cutoff
+  // check = >=0
+  // desc = if 1 canary gain dominates
+  int canaritos_cutoff = 0;
+
   // alias = num_leaf, max_leaves, max_leaf, max_leaf_nodes
   // check = >1
   // check = <=131072
