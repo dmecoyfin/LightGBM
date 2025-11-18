@@ -254,7 +254,7 @@ Tree* SerialTreeLearner::Train(const score_t* gradients, const score_t *hessians
     }
 
    // only canaritos were present
-    if (best_leaf >=0 & best_leaf_cana >=0 & canaritos_cutoff>0 & best_gain_cana>best_gain ) {
+    if (best_leaf >=0 && best_leaf_cana >=0 && canaritos_cutoff>0 && best_gain_cana>best_gain ) {
       Log::Warning("Canaritos only cutoff");
       break;
     }
