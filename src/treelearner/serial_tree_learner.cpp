@@ -217,6 +217,8 @@ Tree* SerialTreeLearner::Train(const score_t* gradients, const score_t *hessians
   int right_leaf = -1;
 
   int init_splits = ForceSplits(tree_ptr, &left_leaf, &right_leaf, &cur_depth);
+  int canaritos_stops = 0;
+  int final_leaves = 0;
 
   for (int split = init_splits; split < num_leaves_actual - 1; ++split) {
     // some initial works before finding best split
@@ -228,19 +230,23 @@ Tree* SerialTreeLearner::Train(const score_t* gradients, const score_t *hessians
     // int best_leaf = static_cast<int>(ArrayArgs<SplitInfo>::ArgMax(best_split_per_leaf_));
     
     int qcanaritos = config_->canaritos; 
-       
+    canaritos_stops = 0;
     int best_leaf = -1;
     double  best_gain = -99999999.0;
-    int best_leaf_cana = -1;                                                                                         
+    int best_leaf_cana = -1;
     double  best_gain_cana = -99999999.0;
+    final_leaves = best_split_per_leaf_.size();
     for (size_t i = 0; i < best_split_per_leaf_.size();  i++) {
         if (  best_split_per_leaf_[i].feature >= qcanaritos && best_split_per_leaf_[i].gain > best_gain) {
           best_gain = best_split_per_leaf_[i].gain;
           best_leaf = i;
         }
-        if (  best_split_per_leaf_[i].feature < qcanaritos && best_split_per_leaf_[i].gain > best_gain_cana) {        
-          best_gain_cana = best_split_per_leaf_[i].gain;                                                               
-          best_leaf_cana = i;                                                                                         
+        if (  best_split_per_leaf_[i].feature < qcanaritos) {
+          canaritos_stops+= 1;
+          if( best_split_per_leaf_[i].gain > best_gain_cana) {
+            best_gain_cana = best_split_per_leaf_[i].gain;
+            best_leaf_cana = i;
+          }
         }  
       }
 
@@ -268,6 +274,11 @@ Tree* SerialTreeLearner::Train(const score_t* gradients, const score_t *hessians
     Split(tree_ptr, best_leaf, &left_leaf, &right_leaf);
     cur_depth = std::max(cur_depth, tree->leaf_depth(left_leaf));
   }
+
+   if( canaritos_stops > 0 ) {
+    Log::Warning("Status leaves and canaritos: %d %d", final_leaves, canaritos_stops);
+   }
+
 
   if (config_->use_quantized_grad && config_->quant_train_renew_leaf) {
     gradient_discretizer_->RenewIntGradTreeOutput(tree.get(), config_, data_partition_.get(), gradients_, hessians_,
